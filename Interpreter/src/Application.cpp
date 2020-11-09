@@ -12,6 +12,26 @@
 
 #define WHITE  0xFFFFFF
 
+struct Timer
+{
+	std::chrono::time_point<std::chrono::steady_clock> start;
+	std::chrono::time_point<std::chrono::steady_clock> end;
+	std::chrono::duration<float> duration;
+
+	Timer()
+	{
+		start = std::chrono::high_resolution_clock::now();
+	}
+
+	~Timer()
+	{
+		end = std::chrono::high_resolution_clock::now();
+		duration = end - start;
+		float ms = duration.count() * 1000.0f;
+		std::cout << "Timer " << ms << "ms" << std::endl;
+	}
+};
+
 int main(int argc, char* argv[])
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -117,7 +137,10 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		i.cycle();
+		{
+			Timer timer;
+			i.cycle();
+		}
 
 		if (i.should_draw)
 		{
