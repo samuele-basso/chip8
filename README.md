@@ -1,1 +1,2 @@
-# chip8
+# CHIP-8
+*Virtual machine implementation*
